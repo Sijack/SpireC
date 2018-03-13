@@ -35,7 +35,7 @@ char * substring(char word[], int x, int y) {
 	return sub;
 }
 
-// —---------------------- CFL —-------------------------------------------------------------------
+// ---------------------- CFL -------------------------------------------------------------------
 // CFL - Lyndon factorization - Duval's algorithm
 node_t * CFL(char word[]) {
 
