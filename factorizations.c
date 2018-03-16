@@ -458,15 +458,16 @@ void compute_icfl_recursive(char word[], node_t **curr_pointer_br, node_t **curr
     // At each step compute the current bre
     node_t *pre_pair = find_pre(word);
     node_t *current_bre_quad = find_bre(pre_pair);
-    *curr_pointer_br = current_bre_quad;
 
-    print_list(current_bre_quad);
-
+    node_t *track_pointer = curr_pointer_br;
+    while(track_pointer->next != NULL) {
+    	track_pointer = track_pointer->next;
+    }
+    track_pointer->next = current_bre_quad;
 
     if ((current_bre_quad->next->factor[0] == '\0') && (strchr(current_bre_quad->factor, '$') != NULL)) {
         char *w = current_bre_quad->factor;
         node_t * icfl_node = (node_t *) malloc(sizeof(node_t) + strlen(w) - 1);
-        icfl_node->factor[0] = '\0';
         icfl_node->factor = substring(w, 0, strlen(w) - 1);
 
         if (*curr_pointer_icfl == NULL) {
@@ -483,14 +484,13 @@ void compute_icfl_recursive(char word[], node_t **curr_pointer_br, node_t **curr
     	fact1_fact2[0] = '\0';
     	strcat(fact1_fact2, current_bre_quad->next->factor);
     	strcat(fact1_fact2, current_bre_quad->next->next->factor);
-        printf("\nf: %s", fact1_fact2);
 
-
-        //compute_icfl_recursive(fact1_fact2, curr_pointer_br, curr_pointer_icfl);
+        compute_icfl_recursive(fact1_fact2, curr_pointer_br, curr_pointer_icfl);
         if (strlen((*curr_pointer_icfl)->factor) > atoi(current_bre_quad->next->next->next->factor)) {
 
-        	node_t * icfl_node = (node_t *) malloc(sizeof(node_t) + strlen(current_bre_quad->factor) + 1); ///serve 1?
+        	node_t * icfl_node = (node_t *) malloc(sizeof(node_t) + strlen(current_bre_quad->factor)); ///serve 1?
         	icfl_node->factor = current_bre_quad->factor;
+
         	if (*curr_pointer_icfl == NULL) {
         		icfl_node->next = NULL;
         	    *curr_pointer_icfl = icfl_node;
@@ -502,8 +502,8 @@ void compute_icfl_recursive(char word[], node_t **curr_pointer_br, node_t **curr
         } else {
 
         	node_t * new_icfl_node = (node_t *) malloc(sizeof(node_t) + strlen(current_bre_quad->factor) + strlen((*curr_pointer_icfl)->factor) + 1);
-        	new_icfl_node->factor[0] = '\0';
-        	strcat(new_icfl_node->factor, current_bre_quad->factor);
+        	new_icfl_node->factor = current_bre_quad->factor;
+        	//strcat(new_icfl_node->factor, current_bre_quad->factor);
         	strcat(new_icfl_node->factor, (*curr_pointer_icfl)->factor);
         	new_icfl_node->next = (*curr_pointer_icfl)->next;
         	(*curr_pointer_icfl)->next = NULL;
@@ -556,8 +556,8 @@ void compute_icfl_recursive_for_alphabet(char word[], node_t **curr_pointer_br, 
 
         } else {
 
-        	node_t * new_icfl_node = (node_t *) malloc(sizeof(node_t) + strlen(current_bre_quad->factor) + strlen((*curr_pointer_icfl)->factor) + 1);
-        	new_icfl_node->factor[0] = '\0';
+        	node_t *new_icfl_node = (node_t *) malloc(sizeof(node_t) + strlen(current_bre_quad->factor) + strlen((*curr_pointer_icfl)->factor) + 1);
+        	//new_icfl_node->factor[0] = '\0';
         	strcat(new_icfl_node->factor, current_bre_quad->factor);
         	strcat(new_icfl_node->factor, (*curr_pointer_icfl)->factor);
         	new_icfl_node->next = (*curr_pointer_icfl)->next;

@@ -4,7 +4,7 @@
 #include "factorizations.h"
 
 int main() {
-
+/*
 	printf("CFL:\n");
 	node_t *node = CFL("dabdadacddbdc");
 	print_list_reverse(node);
@@ -15,19 +15,30 @@ int main() {
 
 	printf("\n\n");
 
-	node_t *node3 = find_pre("dabdadacddbdc");
-		print_list(node3);
-		printf("\n");
-
-		node_t *node4 = find_bre(node3);
-			print_list(node4);
-
+*/
 
 	printf("\n\nICFL recursive:\n");
-	node_t *node5 = ICFL_recursive("dadac");
-
-	printf("\n\n%s", substring("dadac", 0, strlen("dadac")));
+//	node_t *node5 = ICFL_recursive("dadacddbdc"); //dadac if funziona
 //	print_list(node5);
+
+
+	node_t *node3 = find_pre("dabacddbdc");
+	print_list(node3);
+	printf("\n");
+
+	node_t *node4 = find_bre(node3);
+	print_list(node4); //dab dad acddbdc 2
+
+	node_t *track_pointer = node4;
+	    while(track_pointer->next != NULL) {
+	    	track_pointer = track_pointer->next;
+	    }
+	    track_pointer->next = node3;
+	    print_list(node4);
+	    printf("\n");
+	    print_list(track_pointer);
+	    print_list(node3);
+
 /*
 	printf("\n\nICFL for alphabet recursive:\n");
 	node_t *node4 = ICFL_recursive_for_alphabet("dabdadacddbdc", "dcba");
