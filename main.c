@@ -9,24 +9,35 @@ int main() {
 	node_t *node = CFL("dabdadacddbdc");
 	print_list_reverse(node);
 
-	printf("\nCFL for alphabet:\n");
-
+	printf("\n\nCFL for alphabet:\n");
 	node_t *node2 = CFL_for_alphabet("dabdadacddbdc", "dcba");
 	print_list_reverse(node2);
 
-	printf("\n");
-/*
-	node_t *node3 = ICFL_recursive("dabdadacddbdc");
-	//print_list(node3);
-*/
-/*
-	node_t *curr_pointer_br = NULL;
-	node_t *curr_pointer_icfl = NULL;
-	printf("%x %x", &curr_pointer_br, &curr_pointer_icfl);
+	printf("\n\n");
 
-	compute_icfl_recursive("dabdadacddbdc", &curr_pointer_br, &curr_pointer_icfl);
+	node_t *node3 = find_pre("dabdadacddbdc");
+		print_list(node3);
+		printf("\n");
+
+		node_t *node4 = find_bre(node3);
+			print_list(node4);
+
+
+	printf("\n\nICFL recursive:\n");
+	node_t *node5 = ICFL_recursive("dadac");
+
+	printf("\n\n%s", substring("dadac", 0, strlen("dadac")));
+//	print_list(node5);
+/*
+	printf("\n\nICFL for alphabet recursive:\n");
+	node_t *node4 = ICFL_recursive_for_alphabet("dabdadacddbdc", "dcba");
+	print_list(node4);
 */
 	return 0;
 }
 
+//parentesi finale print_ricorsiva
+//node_t *node4 = find_pre("a"); //stringa vuota?
+//memoria
+//makefile
 
