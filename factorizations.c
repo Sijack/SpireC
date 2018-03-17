@@ -17,20 +17,21 @@ int index_in_alphabet(char t, char typ_alphabet_list[]) {
     return -1;
 }
 
+int count_for_print;
 //recursive print of nodes in first-last order
 void print_list_reverse(node_t *node) {
 	if (node->next != NULL) {
-		//count_for_print++;
+		count_for_print++;
 		print_list_reverse(node->next);
 	} else {
 		printf("[ ");
 	}
-	//count_for_print--;
 	printf("\"%s\" ", node->factor);
-/*	if (count_for_print == 0) {
-		printf(" ]");
-		count_for_print = 0;
-	}*/
+	if (count_for_print == 0) {
+		printf("]");
+		count_for_print = 1;
+	}
+	count_for_print--;
 }
 
 void print_list(node_t *node) {
@@ -461,7 +462,7 @@ void compute_icfl_recursive(char word[], node_t **curr_pointer_br, node_t **curr
     node_t *pre_pair = find_pre(word);
     node_t *current_bre_quad = find_bre(pre_pair);
 
-    if(*curr_pointer_br!=NULL) {
+    if(*curr_pointer_br != NULL) {
 		node_t *track_pointer = *curr_pointer_br;
 		while(track_pointer->next != NULL) {
 			track_pointer = track_pointer->next;
@@ -495,7 +496,7 @@ void compute_icfl_recursive(char word[], node_t **curr_pointer_br, node_t **curr
         compute_icfl_recursive(fact1_fact2, curr_pointer_br, curr_pointer_icfl);
         if (strlen((*curr_pointer_icfl)->factor) > atoi(current_bre_quad->next->next->next->factor)) {
 
-        	node_t * icfl_node = (node_t *) malloc(sizeof(node_t) + strlen(current_bre_quad->factor)); ///serve 1?
+        	node_t * icfl_node = (node_t *) malloc(sizeof(node_t) + strlen(current_bre_quad->factor));
         	icfl_node->factor = current_bre_quad->factor;
 
         	if (*curr_pointer_icfl == NULL) {
@@ -526,7 +527,17 @@ void compute_icfl_recursive_for_alphabet(char word[], node_t **curr_pointer_br, 
     // At each step compute the current bre
     node_t *pre_pair = find_pre_for_alphabet(word, list_alphabet);
     node_t *current_bre_quad = find_bre_for_alphabet(pre_pair, list_alphabet);
-    *curr_pointer_br = current_bre_quad;
+
+    if(*curr_pointer_br != NULL) {
+		node_t *track_pointer = *curr_pointer_br;
+		while(track_pointer->next != NULL) {
+			track_pointer = track_pointer->next;
+		}
+		track_pointer->next = current_bre_quad;
+
+	} else {
+		*curr_pointer_br = current_bre_quad;
+	}
 
     if ((current_bre_quad->next->factor[0] == '\0') && (strchr(current_bre_quad->factor, '$') != NULL)) {
         char *w = current_bre_quad->factor;
