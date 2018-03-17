@@ -371,6 +371,7 @@ node_t *find_bre(node_t *pre_pair) {
 		}
 
 		last_index = (node_t *) malloc(sizeof(node_t) + digit_count + 1);
+		last_index->factor = (char *) malloc(digit_count + 1);
 
 		fact1->factor = substring(w, 0, n - last);
 		fact2->factor = substring(w, n - last, n + 1);
@@ -438,6 +439,7 @@ node_t *find_bre_for_alphabet(node_t *pre_pair, char list_alphabet[]) {
 		}
 
 		last_index = (node_t *) malloc(sizeof(node_t) + digit_count + 1);
+		last_index->factor = (char *) malloc(digit_count + 1);
 
 		fact1->factor = substring(w, 0, n - last);
 		fact2->factor = substring(w, n - last, n + 1);
@@ -459,11 +461,16 @@ void compute_icfl_recursive(char word[], node_t **curr_pointer_br, node_t **curr
     node_t *pre_pair = find_pre(word);
     node_t *current_bre_quad = find_bre(pre_pair);
 
-    node_t *track_pointer = curr_pointer_br;
-    while(track_pointer->next != NULL) {
-    	track_pointer = track_pointer->next;
+    if(*curr_pointer_br!=NULL) {
+		node_t *track_pointer = *curr_pointer_br;
+		while(track_pointer->next != NULL) {
+			track_pointer = track_pointer->next;
+		}
+		track_pointer->next = current_bre_quad;
+
+    } else {
+    	*curr_pointer_br = current_bre_quad;
     }
-    track_pointer->next = current_bre_quad;
 
     if ((current_bre_quad->next->factor[0] == '\0') && (strchr(current_bre_quad->factor, '$') != NULL)) {
         char *w = current_bre_quad->factor;

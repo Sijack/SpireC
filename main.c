@@ -18,10 +18,10 @@ int main() {
 */
 
 	printf("\n\nICFL recursive:\n");
-//	node_t *node5 = ICFL_recursive("dadacddbdc"); //dadac if funziona
-//	print_list(node5);
+	node_t *node5 = ICFL_recursive("abaababaabbaabbbbbbbbb");
+	print_list(node5);
 
-
+/*
 	node_t *node3 = find_pre("dabacddbdc");
 	print_list(node3);
 	printf("\n");
@@ -38,7 +38,7 @@ int main() {
 	    printf("\n");
 	    print_list(track_pointer);
 	    print_list(node3);
-
+*/
 /*
 	printf("\n\nICFL for alphabet recursive:\n");
 	node_t *node4 = ICFL_recursive_for_alphabet("dabdadacddbdc", "dcba");
