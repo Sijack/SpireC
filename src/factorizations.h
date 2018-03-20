@@ -1,15 +1,9 @@
 #ifndef FACTORIZATIONS_H_
 #define FACTORIZATIONS_H_
 
-typedef struct node {
-    char *factor;
-    struct node *next;
-} node_t;
+#include "utils.h"
 
 int index_in_alphabet(char t, char typ_alphabet_list[]);
-void print_list_reverse(node_t *node);
-void print_list(node_t *node);
-char * substring(char word[], int x, int y);
 node_t * CFL(char word[]);
 node_t * CFL_for_alphabet(char word[], char list_alphabet[]);
 node_t *find_pre(char word[]);

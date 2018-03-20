@@ -1,12 +1,7 @@
-#include <stdlib.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
-
-//struct of any list's node, generally nodes are considered in last-first order
-typedef struct node {
-    char *factor;
-    struct node *next;
-} node_t;
+#include "utils.h"
 
 int index_in_alphabet(char t, char typ_alphabet_list[]) {
     int i;
@@ -15,44 +10,6 @@ int index_in_alphabet(char t, char typ_alphabet_list[]) {
             return i;
     }
     return -1;
-}
-
-int count_for_print;
-//recursive print of nodes in first-last order
-void print_list_reverse(node_t *node) {
-	if (node->next != NULL) {
-		count_for_print++;
-		print_list_reverse(node->next);
-	} else {
-		printf("[ ");
-	}
-	printf("\"%s\" ", node->factor);
-	if (count_for_print == 0) {
-		printf("]");
-		count_for_print = 1;
-	}
-	count_for_print--;
-}
-
-void print_list(node_t *node) {
-	printf("[ ");
-	while (node != NULL) {
-		printf("\"%s\" ", node->factor);
-		node = node->next;
-	}
-	printf("]");
-}
-
-char *substring(char word[], int x, int y) {
-	int k = 0, i;
-	char *sub = (char *) malloc((y-x + 1));
-
-	for (i = x; i < y; i++) {
-		sub[k++] = word[i];
-	}
-	sub[k] = '\0';
-
-	return sub;
 }
 
 // ---------------------- CFL -----------------------------------------------------------------
@@ -131,6 +88,7 @@ node_t *CFL_for_alphabet(char word[], char list_alphabet[]) {
 
 // ----------------------- ICFL ----------------------------------------------------------------------
 
+//no empty string
 //returns 2 factors as a list in first-last order
 node_t *find_pre(char word[]) {
 
@@ -248,6 +206,7 @@ node_t *find_pre_for_alphabet(char word[], char list_alphabet[]) {
 
     } else {
         int i = 0, j = 1;
+
         while ((j < word_len) && (index_in_alphabet(word[j], list_alphabet) <= index_in_alphabet(word[i],list_alphabet))) {
             if (index_in_alphabet(word[j], list_alphabet) < index_in_alphabet(word[i],list_alphabet))
                 i = 0;
@@ -421,6 +380,7 @@ node_t *find_bre_for_alphabet(node_t *pre_pair, char list_alphabet[]) {
 
         int i = n;
         int last = f[i-1];
+
         while (i > 0) {
             if (index_in_alphabet(w[f[i-1]], list_alphabet) < index_in_alphabet(w[n], list_alphabet))
                 last = f[i-1];
@@ -509,13 +469,14 @@ void compute_icfl_recursive(char word[], node_t **curr_pointer_br, node_t **curr
 
         } else {
 
-        	node_t * new_icfl_node = (node_t *) malloc(sizeof(node_t));
+        	node_t *new_icfl_node = (node_t *) malloc(sizeof(node_t));
         	new_icfl_node->factor = current_bre_quad->factor;
         	//strcat(new_icfl_node->factor, current_bre_quad->factor);
         	strcat(new_icfl_node->factor, (*curr_pointer_icfl)->factor);
         	new_icfl_node->next = (*curr_pointer_icfl)->next;
         	(*curr_pointer_icfl)->next = NULL;
         	free(*curr_pointer_icfl);
+        	*curr_pointer_icfl = new_icfl_node;
         }
         return;
     }
@@ -559,11 +520,12 @@ void compute_icfl_recursive_for_alphabet(char word[], node_t **curr_pointer_br, 
     	strcat(fact1_fact2, current_bre_quad->next->factor);
     	strcat(fact1_fact2, current_bre_quad->next->next->factor);
 
-        compute_icfl_recursive(fact1_fact2, curr_pointer_br, curr_pointer_icfl);
+        compute_icfl_recursive_for_alphabet(fact1_fact2, curr_pointer_br, curr_pointer_icfl, list_alphabet);
         if (strlen((*curr_pointer_icfl)->factor) > atoi(current_bre_quad->next->next->next->factor)) {
 
         	node_t * icfl_node = (node_t *) malloc(sizeof(node_t));
         	icfl_node->factor = current_bre_quad->factor;
+
         	if (*curr_pointer_icfl == NULL) {
         		icfl_node->next = NULL;
         	    *curr_pointer_icfl = icfl_node;
@@ -575,12 +537,13 @@ void compute_icfl_recursive_for_alphabet(char word[], node_t **curr_pointer_br, 
         } else {
 
         	node_t *new_icfl_node = (node_t *) malloc(sizeof(node_t));
-        	//new_icfl_node->factor[0] = '\0';
-        	strcat(new_icfl_node->factor, current_bre_quad->factor);
+        	new_icfl_node->factor = current_bre_quad->factor;
+        	//strcat(new_icfl_node->factor, current_bre_quad->factor);
         	strcat(new_icfl_node->factor, (*curr_pointer_icfl)->factor);
         	new_icfl_node->next = (*curr_pointer_icfl)->next;
         	(*curr_pointer_icfl)->next = NULL;
         	free(*curr_pointer_icfl);
+        	*curr_pointer_icfl = new_icfl_node;
         }
         return;
     }
