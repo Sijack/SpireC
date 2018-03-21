@@ -416,23 +416,12 @@ node_t *find_bre_for_alphabet(node_t *pre_pair, char list_alphabet[]) {
     }
 }
 
-void compute_icfl_recursive(char word[], node_t **curr_pointer_br, node_t **curr_pointer_icfl) {
+void compute_icfl_recursive(char word[], node_t **curr_pointer_icfl) {
 
     // At each step compute the current bre
     node_t *pre_pair = find_pre(word);
     node_t *current_bre_quad = find_bre(pre_pair);
 
-    if(*curr_pointer_br != NULL) {
-		node_t *track_pointer = *curr_pointer_br;
-		while(track_pointer->next != NULL) {
-			track_pointer = track_pointer->next;
-		}
-		track_pointer->next = current_bre_quad;
-
-    } else {
-    	*curr_pointer_br = current_bre_quad;
-    }
-
     if ((current_bre_quad->next->factor[0] == '\0') && (strchr(current_bre_quad->factor, '$') != NULL)) {
         char *w = current_bre_quad->factor;
         node_t * icfl_node = (node_t *) malloc(sizeof(node_t));
@@ -453,7 +442,7 @@ void compute_icfl_recursive(char word[], node_t **curr_pointer_br, node_t **curr
     	strcat(fact1_fact2, current_bre_quad->next->factor);
     	strcat(fact1_fact2, current_bre_quad->next->next->factor);
 
-        compute_icfl_recursive(fact1_fact2, curr_pointer_br, curr_pointer_icfl);
+        compute_icfl_recursive(fact1_fact2, curr_pointer_icfl);
         if (strlen((*curr_pointer_icfl)->factor) > atoi(current_bre_quad->next->next->next->factor)) {
 
         	node_t * icfl_node = (node_t *) malloc(sizeof(node_t));
@@ -468,37 +457,26 @@ void compute_icfl_recursive(char word[], node_t **curr_pointer_br, node_t **curr
         	}
 
         } else {
-
+        	printf("\nelse");
         	node_t *new_icfl_node = (node_t *) malloc(sizeof(node_t));
         	new_icfl_node->factor = current_bre_quad->factor;
         	//strcat(new_icfl_node->factor, current_bre_quad->factor);
         	strcat(new_icfl_node->factor, (*curr_pointer_icfl)->factor);
         	new_icfl_node->next = (*curr_pointer_icfl)->next;
         	(*curr_pointer_icfl)->next = NULL;
-        	free(*curr_pointer_icfl);
         	*curr_pointer_icfl = new_icfl_node;
         }
+        free(fact1_fact2);
         return;
     }
 }
 
 //ICFL recursive (without using of compute_br)- Inverse Lyndon factorization - on a specific alphabet
-void compute_icfl_recursive_for_alphabet(char word[], node_t **curr_pointer_br, node_t **curr_pointer_icfl, char list_alphabet[]) {
+void compute_icfl_recursive_for_alphabet(char word[], node_t **curr_pointer_icfl, char list_alphabet[]) {
 
     // At each step compute the current bre
     node_t *pre_pair = find_pre_for_alphabet(word, list_alphabet);
     node_t *current_bre_quad = find_bre_for_alphabet(pre_pair, list_alphabet);
-
-    if(*curr_pointer_br != NULL) {
-		node_t *track_pointer = *curr_pointer_br;
-		while(track_pointer->next != NULL) {
-			track_pointer = track_pointer->next;
-		}
-		track_pointer->next = current_bre_quad;
-
-	} else {
-		*curr_pointer_br = current_bre_quad;
-	}
 
     if ((current_bre_quad->next->factor[0] == '\0') && (strchr(current_bre_quad->factor, '$') != NULL)) {
         char *w = current_bre_quad->factor;
@@ -520,7 +498,7 @@ void compute_icfl_recursive_for_alphabet(char word[], node_t **curr_pointer_br, 
     	strcat(fact1_fact2, current_bre_quad->next->factor);
     	strcat(fact1_fact2, current_bre_quad->next->next->factor);
 
-        compute_icfl_recursive_for_alphabet(fact1_fact2, curr_pointer_br, curr_pointer_icfl, list_alphabet);
+        compute_icfl_recursive_for_alphabet(fact1_fact2, curr_pointer_icfl, list_alphabet);
         if (strlen((*curr_pointer_icfl)->factor) > atoi(current_bre_quad->next->next->next->factor)) {
 
         	node_t * icfl_node = (node_t *) malloc(sizeof(node_t));
@@ -542,9 +520,9 @@ void compute_icfl_recursive_for_alphabet(char word[], node_t **curr_pointer_br, 
         	strcat(new_icfl_node->factor, (*curr_pointer_icfl)->factor);
         	new_icfl_node->next = (*curr_pointer_icfl)->next;
         	(*curr_pointer_icfl)->next = NULL;
-        	free(*curr_pointer_icfl);
         	*curr_pointer_icfl = new_icfl_node;
         }
+        free(fact1_fact2);
         return;
     }
 }
@@ -553,10 +531,9 @@ void compute_icfl_recursive_for_alphabet(char word[], node_t **curr_pointer_br, 
 node_t *ICFL_recursive(char word[]) {
     //In this version of ICFL, we don't execute compute_br - one only O(n) scanning of word
 
-	node_t *curr_pointer_br = NULL;
 	node_t *curr_pointer_icfl = NULL;
 
-    compute_icfl_recursive(word, &curr_pointer_br, &curr_pointer_icfl);
+    compute_icfl_recursive(word, &curr_pointer_icfl);
 
     return curr_pointer_icfl;
 }
@@ -565,10 +542,9 @@ node_t *ICFL_recursive(char word[]) {
 node_t *ICFL_recursive_for_alphabet(char word[], char list_alphabet[]) {
     //In this version of ICFL, we don't execute compute_br - one only O(n) scanning of word
 
-	node_t *curr_pointer_br = NULL;
 	node_t *curr_pointer_icfl = NULL;
 
-    compute_icfl_recursive_for_alphabet(word, &curr_pointer_br, &curr_pointer_icfl, list_alphabet);
+    compute_icfl_recursive_for_alphabet(word, &curr_pointer_icfl, list_alphabet);
 
     return curr_pointer_icfl;
 }

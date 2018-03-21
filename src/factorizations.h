@@ -11,8 +11,8 @@ node_t *find_pre_for_alphabet(char word[], char list_alphabet[]);
 void border(char p[], int **pi);
 node_t *find_bre(node_t *pre_pair);
 node_t *find_bre_for_alphabet(node_t *pre_pair, char list_alphabet[]);
-void compute_icfl_recursive(char word[], node_t **curr_pointer_br, node_t **curr_pointer_icfl);
-void compute_icfl_recursive_for_alphabet(char word[], node_t **curr_pointer_br, node_t **curr_pointer_icfl, char list_alphabet[]);
+void compute_icfl_recursive(char word[], node_t **curr_pointer_icfl);
+void compute_icfl_recursive_for_alphabet(char word[], node_t **curr_pointer_icfl, char list_alphabet[]);
 node_t *ICFL_recursive(char word[]);
 node_t *ICFL_recursive_for_alphabet(char word[], char list_alphabet[]);
 
