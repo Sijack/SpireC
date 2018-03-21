@@ -48,8 +48,6 @@ int main() {
 
 //icfl for alphabet sembra diverso da python
 
-//makefile check
-
 //memoria icfl
 
 

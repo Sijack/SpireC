@@ -1,4 +1,11 @@
-gcc -O0 -g3 -Wall -c -fmessage-length=0 -o "src\\main.o" "..\\src\\main.c" 
-gcc -O0 -g3 -Wall -c -fmessage-length=0 -o "src\\utils.o" "..\\src\\utils.c" 
-gcc -O0 -g3 -Wall -c -fmessage-length=0 -o "src\\factorizations.o" "..\\src\\factorizations.c" 
-gcc -o SpireC.exe "src\\utils.o" "src\\factorizations.o" "src\\main.o" 
+SpireC: main.o factorizations.o utils.o
+	gcc -o SpireC main.o factorizations.o utils.o
+
+main.o: src/main.c src/factorizations.h
+	gcc -c src/main.c
+
+factorizations.o: src/factorizations.c src/utils.h
+	gcc -c src/factorizations.c
+
+utils.o: src/utils.c
+	gcc -c src/utils.c
