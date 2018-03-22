@@ -113,7 +113,9 @@ node_t *find_pre(char word[]) {
 		//strcat(fact1->factor, "$");
 
     	fact2 = (node_t *) malloc(sizeof(node_t));
-    	fact2->factor = "";
+    	fact2->factor = malloc(1);
+    	strcpy(fact2->factor, "");
+    	//fact2->factor = "";
     	fact2->next = NULL;
 
     	fact1->next = fact2;
@@ -150,7 +152,9 @@ node_t *find_pre(char word[]) {
         	//strcat(fact1->factor, "$");
 
 			fact2 = (node_t *) malloc(sizeof(node_t));
-			fact2->factor = "";
+			fact2->factor = malloc(1);
+			strcpy(fact2->factor, "");
+			//fact2->factor = "";
 			fact2->next = NULL;
 
 			fact1->next = fact2;
@@ -197,7 +201,9 @@ node_t *find_pre_for_alphabet(char word[], char list_alphabet[]) {
 		//strcat(fact1->factor, "$");
 
     	fact2 = (node_t *) malloc(sizeof(node_t));
-    	fact2->factor = "";
+    	fact2->factor = malloc(1);
+		strcpy(fact2->factor, "");
+		//fact2->factor = "";
     	fact2->next = NULL;
 
     	fact1->next = fact2;
@@ -234,7 +240,9 @@ node_t *find_pre_for_alphabet(char word[], char list_alphabet[]) {
 			//strcat(fact1->factor, "$");
 
 			fact2 = (node_t *) malloc(sizeof(node_t));
-			fact2->factor = "";
+			fact2->factor = malloc(1);
+			strcpy(fact2->factor, "");
+			//fact2->factor = "";
 			fact2->next = NULL;
 
 			fact1->next = fact2;
@@ -279,9 +287,7 @@ void border(char p[], int **pi) {
 }
 
 //returns 3 factors and an index as a list in first-last order
-node_t *find_bre(node_t *pre_pair) {
-    char *w = pre_pair->factor;
-    char *v = pre_pair->next->factor;
+node_t *find_bre(char *w, char *v) {
 
     node_t *fact1 = NULL, *fact2 = NULL, *fact3 = NULL, *last_index = NULL;
 
@@ -292,10 +298,17 @@ node_t *find_bre(node_t *pre_pair) {
     	fact3 = (node_t *) malloc(sizeof(node_t));
     	last_index = (node_t *) malloc(sizeof(node_t));
 
-    	fact1->factor = w;
-    	fact2->factor = "";
-    	fact3->factor = "";
-    	last_index->factor = "0";
+    	fact1->factor = malloc(strlen(w) + 1);
+    	strcpy(fact1->factor, w);
+    	fact2->factor = malloc(1);
+    	strcpy(fact2->factor, "");
+		//fact2->factor = "";
+    	fact3->factor = malloc(1);
+		strcpy(fact3->factor, "");
+		//fact3->factor = "";
+		last_index->factor = malloc(2);
+		strcpy(last_index->factor, "0");
+    	//last_index->factor = "0";
 
     	last_index->next = NULL;
     	fact3->next = last_index;
@@ -307,7 +320,8 @@ node_t *find_bre(node_t *pre_pair) {
     } else {
         int n = strlen(w) - 1;
         int *f = NULL;
-        border(substring(w, 0, n), &f);
+        char *sub = substring(w, 0, n);
+        border(sub, &f);
 
         int i = n;
         int last = f[i-1];
@@ -317,6 +331,9 @@ node_t *find_bre(node_t *pre_pair) {
                 last = f[i-1];
             i = f[i-1];
         }
+
+        free(sub);
+        free(f);
 
         fact1 = (node_t *) malloc(sizeof(node_t));
 		fact2 = (node_t *) malloc(sizeof(node_t));
@@ -335,7 +352,8 @@ node_t *find_bre(node_t *pre_pair) {
 
 		fact1->factor = substring(w, 0, n - last);
 		fact2->factor = substring(w, n - last, n + 1);
-		fact3->factor = v;
+		fact3->factor = malloc(strlen(v) + 1);
+		strcpy(fact3->factor, v);
 		sprintf(last_index->factor, "%d", last);
 
 		last_index->next = NULL;
@@ -348,9 +366,7 @@ node_t *find_bre(node_t *pre_pair) {
 }
 
 //returns 3 factors and an index as a list in first-last order
-node_t *find_bre_for_alphabet(node_t *pre_pair, char list_alphabet[]) {
-    char *w = pre_pair->factor;
-    char *v = pre_pair->next->factor;
+node_t *find_bre_for_alphabet(char *w, char *v, char list_alphabet[]) {
 
     node_t *fact1 = NULL, *fact2 = NULL, *fact3 = NULL, *last_index = NULL;
 
@@ -361,10 +377,17 @@ node_t *find_bre_for_alphabet(node_t *pre_pair, char list_alphabet[]) {
     	fact3 = (node_t *) malloc(sizeof(node_t));
     	last_index = (node_t *) malloc(sizeof(node_t));
 
-    	fact1->factor = w;
-    	fact2->factor = "";
-    	fact3->factor = "";
-    	last_index->factor = "0";
+    	fact1->factor = malloc(strlen(w) + 1);
+    	strcpy(fact1->factor, w);
+    	fact2->factor = malloc(1);
+    	strcpy(fact2->factor, "");
+		//fact2->factor = "";
+    	fact3->factor = malloc(1);
+		strcpy(fact3->factor, "");
+		//fact3->factor = "";
+		last_index->factor = malloc(2);
+		strcpy(last_index->factor, "0");
+    	//last_index->factor = "0";
 
     	last_index->next = NULL;
     	fact3->next = last_index;
@@ -376,7 +399,8 @@ node_t *find_bre_for_alphabet(node_t *pre_pair, char list_alphabet[]) {
     } else {
         int n = strlen(w) - 1;
         int *f = NULL;
-        border(substring(w, 0, n), &f);
+		char *sub = substring(w, 0, n);
+		border(sub, &f);
 
         int i = n;
         int last = f[i-1];
@@ -386,6 +410,9 @@ node_t *find_bre_for_alphabet(node_t *pre_pair, char list_alphabet[]) {
                 last = f[i-1];
             i = f[i-1];
         }
+
+        free(sub);
+        free(f);
 
         fact1 = (node_t *) malloc(sizeof(node_t));
 		fact2 = (node_t *) malloc(sizeof(node_t));
@@ -404,7 +431,8 @@ node_t *find_bre_for_alphabet(node_t *pre_pair, char list_alphabet[]) {
 
 		fact1->factor = substring(w, 0, n - last);
 		fact2->factor = substring(w, n - last, n + 1);
-		fact3->factor = v;
+		fact3->factor = malloc(strlen(v) + 1);
+		strcpy(fact3->factor, v);
 		sprintf(last_index->factor, "%d", last);
 
 		last_index->next = NULL;
@@ -420,7 +448,15 @@ void compute_icfl_recursive(char word[], node_t **curr_pointer_icfl) {
 
     // At each step compute the current bre
     node_t *pre_pair = find_pre(word);
-    node_t *current_bre_quad = find_bre(pre_pair);
+    char *fact1 = malloc(strlen(pre_pair->factor) + 1);
+    char *fact2 = malloc(strlen(pre_pair->next->factor) + 1);
+    strcpy(fact1, pre_pair->factor);
+    strcpy(fact2, pre_pair->next->factor);
+    node_t *current_bre_quad = find_bre(fact1, fact2);
+
+    free(fact1);
+    free(fact2);
+    free_list(pre_pair);
 
     if ((current_bre_quad->next->factor[0] == '\0') && (strchr(current_bre_quad->factor, '$') != NULL)) {
         char *w = current_bre_quad->factor;
@@ -434,6 +470,7 @@ void compute_icfl_recursive(char word[], node_t **curr_pointer_icfl) {
         	icfl_node->next = *curr_pointer_icfl;
         	*curr_pointer_icfl = icfl_node;
         }
+        free_list(current_bre_quad);
         return;
 
     } else {
@@ -446,7 +483,8 @@ void compute_icfl_recursive(char word[], node_t **curr_pointer_icfl) {
         if (strlen((*curr_pointer_icfl)->factor) > atoi(current_bre_quad->next->next->next->factor)) {
 
         	node_t * icfl_node = (node_t *) malloc(sizeof(node_t));
-        	icfl_node->factor = current_bre_quad->factor;
+        	icfl_node->factor = malloc(strlen(current_bre_quad->factor) + 1);
+        	strcpy(icfl_node->factor, current_bre_quad->factor);
 
         	if (*curr_pointer_icfl == NULL) {
         		icfl_node->next = NULL;
@@ -457,9 +495,9 @@ void compute_icfl_recursive(char word[], node_t **curr_pointer_icfl) {
         	}
 
         } else {
-        	printf("\nelse");
         	node_t *new_icfl_node = (node_t *) malloc(sizeof(node_t));
-        	new_icfl_node->factor = current_bre_quad->factor;
+        	new_icfl_node->factor = malloc(strlen(current_bre_quad->factor) + 1);
+        	strcpy(new_icfl_node->factor, current_bre_quad->factor);
         	//strcat(new_icfl_node->factor, current_bre_quad->factor);
         	strcat(new_icfl_node->factor, (*curr_pointer_icfl)->factor);
         	new_icfl_node->next = (*curr_pointer_icfl)->next;
@@ -467,6 +505,7 @@ void compute_icfl_recursive(char word[], node_t **curr_pointer_icfl) {
         	*curr_pointer_icfl = new_icfl_node;
         }
         free(fact1_fact2);
+        free_list(current_bre_quad);
         return;
     }
 }
@@ -476,7 +515,15 @@ void compute_icfl_recursive_for_alphabet(char word[], node_t **curr_pointer_icfl
 
     // At each step compute the current bre
     node_t *pre_pair = find_pre_for_alphabet(word, list_alphabet);
-    node_t *current_bre_quad = find_bre_for_alphabet(pre_pair, list_alphabet);
+    char *fact1 = malloc(strlen(pre_pair->factor) + 1);
+	char *fact2 = malloc(strlen(pre_pair->next->factor) + 1);
+	strcpy(fact1, pre_pair->factor);
+	strcpy(fact2, pre_pair->next->factor);
+	node_t *current_bre_quad = find_bre_for_alphabet(fact1, fact2, list_alphabet);
+
+	free(fact1);
+	free(fact2);
+    free_list(pre_pair);
 
     if ((current_bre_quad->next->factor[0] == '\0') && (strchr(current_bre_quad->factor, '$') != NULL)) {
         char *w = current_bre_quad->factor;
@@ -490,6 +537,7 @@ void compute_icfl_recursive_for_alphabet(char word[], node_t **curr_pointer_icfl
         	icfl_node->next = *curr_pointer_icfl;
         	*curr_pointer_icfl = icfl_node;
         }
+        free_list(current_bre_quad);
         return;
 
     } else {
@@ -502,7 +550,8 @@ void compute_icfl_recursive_for_alphabet(char word[], node_t **curr_pointer_icfl
         if (strlen((*curr_pointer_icfl)->factor) > atoi(current_bre_quad->next->next->next->factor)) {
 
         	node_t * icfl_node = (node_t *) malloc(sizeof(node_t));
-        	icfl_node->factor = current_bre_quad->factor;
+        	icfl_node->factor = malloc(strlen(current_bre_quad->factor) + 1);
+			strcpy(icfl_node->factor, current_bre_quad->factor);
 
         	if (*curr_pointer_icfl == NULL) {
         		icfl_node->next = NULL;
@@ -515,7 +564,8 @@ void compute_icfl_recursive_for_alphabet(char word[], node_t **curr_pointer_icfl
         } else {
 
         	node_t *new_icfl_node = (node_t *) malloc(sizeof(node_t));
-        	new_icfl_node->factor = current_bre_quad->factor;
+        	new_icfl_node->factor = malloc(strlen(current_bre_quad->factor) + 1);
+			strcpy(new_icfl_node->factor, current_bre_quad->factor);
         	//strcat(new_icfl_node->factor, current_bre_quad->factor);
         	strcat(new_icfl_node->factor, (*curr_pointer_icfl)->factor);
         	new_icfl_node->next = (*curr_pointer_icfl)->next;
@@ -523,6 +573,7 @@ void compute_icfl_recursive_for_alphabet(char word[], node_t **curr_pointer_icfl
         	*curr_pointer_icfl = new_icfl_node;
         }
         free(fact1_fact2);
+        free_list(current_bre_quad);
         return;
     }
 }

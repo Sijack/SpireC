@@ -46,8 +46,6 @@ int main() {
 //for_alphabet in python non accettano stringhe con char non presenti nell'alfabeto, aggiunta funzione di controllo ma non modifica
 //organizzazione struttura progetto
 
-//icfl for alphabet sembra diverso da python
-
 //memoria icfl
 
 
