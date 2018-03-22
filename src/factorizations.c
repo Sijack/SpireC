@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include "utils.h"
-#include "leak_detector_c.h"
 
 int index_in_alphabet(char t, char typ_alphabet_list[]) {
     int i;
@@ -103,7 +102,7 @@ node_t *find_pre(char word[]) {
 		char *new_fact;
 		new_fact = (char *) malloc(word_len + 2);
 		int z;
-		for (z = 0; z < word_len;z++){
+		for (z = 0; z < word_len; z++){
 			new_fact[z] = word[z];
 		}
 		new_fact[z] = '$';
@@ -142,7 +141,7 @@ node_t *find_pre(char word[]) {
         	char *new_fact;
         	new_fact = (char *) malloc(word_len + 2);
         	int z;
-        	for (z = 0; z < word_len;z++){
+        	for (z = 0; z < word_len; z++){
         		new_fact[z] = word[z];
         	}
         	new_fact[z] = '$';
@@ -191,7 +190,7 @@ node_t *find_pre_for_alphabet(char word[], char list_alphabet[]) {
     	char *new_fact;
 		new_fact = (char *) malloc(word_len + 2);
 		int z;
-		for (z = 0; z < word_len;z++){
+		for (z = 0; z < word_len; z++){
 			new_fact[z] = word[z];
 		}
 		new_fact[z] = '$';
@@ -230,7 +229,7 @@ node_t *find_pre_for_alphabet(char word[], char list_alphabet[]) {
         	char *new_fact;
 			new_fact = (char *) malloc(word_len + 2);
 			int z;
-			for (z = 0; z < word_len;z++){
+			for (z = 0; z < word_len; z++){
 				new_fact[z] = word[z];
 			}
 			new_fact[z] = '$';
@@ -661,6 +660,180 @@ node_t *CFL_icfl(char word[], int C) {
 	return CFL_list;
 }
 
+node_t *CFL_icfl_for_alphabet(char word[], int C, char list_alphabet[]) {
+	node_t *CFL_list = NULL;
+	int k = 0, i, j, word_len = strlen(word);
+	char *w;
 
+	while(k < word_len) {
+		i = k + 1;
+		j = k + 2;
 
+		while(1) {
+			if ((j == (word_len + 1)) || (index_in_alphabet(word[j - 1], list_alphabet) < index_in_alphabet(word[i - 1], list_alphabet))) {
+				while (k < i) {
+					w = substring(word, k, k + j - i);
+					if (strlen(w) <= C) {
+						node_t *cfl_node = (node_t *) malloc(sizeof(node_t));
+						cfl_node->factor = malloc(strlen(w) + 1);
+						strcpy(cfl_node->factor, w);
+						cfl_node->next = CFL_list;
+						CFL_list = cfl_node;
+					} else {
+						node_t *ICFL_list = ICFL_recursive(w);
+						//Insert << to indicate the begin of the subdecomposition of w
+						node_t *start_delimiter = (node_t *) malloc(sizeof(node_t));
+						start_delimiter->factor = malloc(3);
+						strcpy(start_delimiter->factor, "<<");
+						start_delimiter->next = CFL_list;
+						CFL_list = start_delimiter;
 
+						while(ICFL_list != NULL) {
+							node_t *tmp = ICFL_list;
+							ICFL_list = ICFL_list->next;
+							tmp->next = CFL_list;
+							CFL_list = tmp;
+						}
+
+						//Insert << to indicate the begin of the subdecomposition of w
+						node_t *end_delimiter = (node_t *) malloc(sizeof(node_t));
+						end_delimiter->factor = malloc(3);
+						strcpy(end_delimiter->factor, ">>");
+						end_delimiter->next = CFL_list;
+						CFL_list = end_delimiter;
+					}
+					k = k + j - i;
+					free(w);
+				}
+				break;
+			} else {
+				if (index_in_alphabet(word[j - 1],list_alphabet) > index_in_alphabet(word[i - 1],list_alphabet)) {
+					i = k + 1;
+				}  else {
+					i = i + 1;
+				}
+				j = j + 1;
+			}
+		}
+	}
+	return CFL_list;
+}
+
+// --------------------------ICFL_cfl-------------------------------------------------------------------
+
+//ICFL recursive factorization - CFL subdecomposition
+node_t *ICFL_cfl(char word[], int C) {
+	//In this version of ICFL, we don't execute compute_br - one only O(n) scanning of word
+	node_t *icfl_list = NULL;
+
+	compute_icfl_recursive(word, &icfl_list);
+
+	node_t *ICFL_cfl_list = NULL;
+	node_t *track_pointer_ICFL_cfl = NULL;
+	node_t *track_pointer_icfl = icfl_list;
+	while (track_pointer_icfl != NULL) {
+		if (strlen(track_pointer_icfl->factor) <= C) {
+			if (ICFL_cfl_list == NULL) {
+				ICFL_cfl_list = (node_t *) malloc(sizeof(node_t));
+				ICFL_cfl_list->factor = malloc(strlen(track_pointer_icfl->factor) + 1);
+				strcpy(ICFL_cfl_list->factor, track_pointer_icfl->factor);
+			    ICFL_cfl_list->next = NULL;
+			    track_pointer_ICFL_cfl = ICFL_cfl_list;
+			} else {
+				node_t *new_node = (node_t *) malloc(sizeof(node_t));
+				new_node->factor = malloc(strlen(track_pointer_icfl->factor) + 1);
+				strcpy(new_node->factor, track_pointer_icfl->factor);
+				new_node->next = NULL;
+				track_pointer_ICFL_cfl->next = new_node;
+				track_pointer_ICFL_cfl = track_pointer_ICFL_cfl->next;
+			}
+		} else {
+			node_t *CFL_list = CFL(track_pointer_icfl->factor);
+			//Insert << to indicate the begin of the subdecomposition of w
+			node_t *start_delimiter = (node_t *) malloc(sizeof(node_t));
+			start_delimiter->factor = malloc(3);
+			strcpy(start_delimiter->factor, "<<");
+			track_pointer_ICFL_cfl->next = start_delimiter;
+			track_pointer_ICFL_cfl = track_pointer_ICFL_cfl->next;
+
+			//Insert << to indicate the begin of the subdecomposition of w
+			node_t *end_delimiter = (node_t *) malloc(sizeof(node_t));
+			end_delimiter->factor = malloc(3);
+			strcpy(end_delimiter->factor, ">>");
+
+			track_pointer_ICFL_cfl = end_delimiter;
+
+			while(CFL_list->next != NULL) {
+				node_t *tmp = CFL_list;
+				CFL_list = CFL_list->next;
+				tmp->next = end_delimiter;
+				end_delimiter = tmp;
+			}
+
+			start_delimiter->next = CFL_list;
+			CFL_list->next = end_delimiter;
+		}
+		track_pointer_icfl = track_pointer_icfl->next;
+	}
+	track_pointer_ICFL_cfl->next = NULL;
+	free_list(icfl_list);
+	return ICFL_cfl_list;
+}
+
+node_t *ICFL_cfl_for_alphabet(char word[], int C, char list_alphabet[]) {
+	//In this version of ICFL, we don't execute compute_br - one only O(n) scanning of word
+	node_t *icfl_list = NULL;
+
+	compute_icfl_recursive_for_alphabet(word, &icfl_list, list_alphabet);
+
+	node_t *ICFL_cfl_list = NULL;
+	node_t *track_pointer_ICFL_cfl = NULL;
+	node_t *track_pointer_icfl = icfl_list;
+	while (track_pointer_icfl != NULL) {
+		if (strlen(track_pointer_icfl->factor) <= C) {
+			if (ICFL_cfl_list == NULL) {
+				ICFL_cfl_list = (node_t *) malloc(sizeof(node_t));
+				ICFL_cfl_list->factor = malloc(strlen(track_pointer_icfl->factor) + 1);
+				strcpy(ICFL_cfl_list->factor, track_pointer_icfl->factor);
+			    ICFL_cfl_list->next = NULL;
+			    track_pointer_ICFL_cfl = ICFL_cfl_list;
+			} else {
+				node_t *new_node = (node_t *) malloc(sizeof(node_t));
+				new_node->factor = malloc(strlen(track_pointer_icfl->factor) + 1);
+				strcpy(new_node->factor, track_pointer_icfl->factor);
+				new_node->next = NULL;
+				track_pointer_ICFL_cfl->next = new_node;
+				track_pointer_ICFL_cfl = track_pointer_ICFL_cfl->next;
+			}
+		} else {
+			node_t *CFL_list = CFL_for_alphabet(track_pointer_icfl->factor, list_alphabet);
+			//Insert << to indicate the begin of the subdecomposition of w
+			node_t *start_delimiter = (node_t *) malloc(sizeof(node_t));
+			start_delimiter->factor = malloc(3);
+			strcpy(start_delimiter->factor, "<<");
+			track_pointer_ICFL_cfl->next = start_delimiter;
+			track_pointer_ICFL_cfl = track_pointer_ICFL_cfl->next;
+
+			//Insert << to indicate the begin of the subdecomposition of w
+			node_t *end_delimiter = (node_t *) malloc(sizeof(node_t));
+			end_delimiter->factor = malloc(3);
+			strcpy(end_delimiter->factor, ">>");
+
+			track_pointer_ICFL_cfl = end_delimiter;
+
+			while(CFL_list->next != NULL) {
+				node_t *tmp = CFL_list;
+				CFL_list = CFL_list->next;
+				tmp->next = end_delimiter;
+				end_delimiter = tmp;
+			}
+
+			start_delimiter->next = CFL_list;
+			CFL_list->next = end_delimiter;
+		}
+		track_pointer_icfl = track_pointer_icfl->next;
+	}
+	track_pointer_ICFL_cfl->next = NULL;
+	free_list(icfl_list);
+	return ICFL_cfl_list;
+}

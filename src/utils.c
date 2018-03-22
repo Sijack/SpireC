@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
-#include "leak_detector_c.h"
 
 //struct of any list's node, generally nodes are considered in last-first order
 typedef struct node {
