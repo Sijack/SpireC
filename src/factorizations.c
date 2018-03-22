@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "utils.h"
+#include "leak_detector_c.h"
 
 int index_in_alphabet(char t, char typ_alphabet_list[]) {
     int i;
@@ -589,7 +590,6 @@ node_t *ICFL_recursive(char word[]) {
     return curr_pointer_icfl;
 }
 
-
 node_t *ICFL_recursive_for_alphabet(char word[], char list_alphabet[]) {
     //In this version of ICFL, we don't execute compute_br - one only O(n) scanning of word
 
@@ -599,4 +599,68 @@ node_t *ICFL_recursive_for_alphabet(char word[], char list_alphabet[]) {
 
     return curr_pointer_icfl;
 }
+
+// ------------------------ CFL_icfl ---------------------------------------------------------------------
+// CFL factorization - ICFL subdecomposition
+node_t *CFL_icfl(char word[], int C) {
+	node_t *CFL_list = NULL;
+	int k = 0, i, j, word_len = strlen(word);
+	char *w;
+
+	while(k < word_len) {
+		i = k + 1;
+		j = k + 2;
+
+		while(1) {
+			if ((j == (word_len + 1)) || (word[j - 1] < word[i - 1])) {
+				while (k < i) {
+					w = substring(word, k, k + j - i);
+					if (strlen(w) <= C) {
+						node_t *cfl_node = (node_t *) malloc(sizeof(node_t));
+						cfl_node->factor = malloc(strlen(w) + 1);
+						strcpy(cfl_node->factor, w);
+						cfl_node->next = CFL_list;
+						CFL_list = cfl_node;
+					} else {
+						node_t *ICFL_list = ICFL_recursive(w);
+						//Insert << to indicate the begin of the subdecomposition of w
+						node_t *start_delimiter = (node_t *) malloc(sizeof(node_t));
+						start_delimiter->factor = malloc(3);
+						strcpy(start_delimiter->factor, "<<");
+						start_delimiter->next = CFL_list;
+						CFL_list = start_delimiter;
+
+						while(ICFL_list != NULL) {
+							node_t *tmp = ICFL_list;
+							ICFL_list = ICFL_list->next;
+							tmp->next = CFL_list;
+							CFL_list = tmp;
+						}
+
+						//Insert << to indicate the begin of the subdecomposition of w
+						node_t *end_delimiter = (node_t *) malloc(sizeof(node_t));
+						end_delimiter->factor = malloc(3);
+						strcpy(end_delimiter->factor, ">>");
+						end_delimiter->next = CFL_list;
+						CFL_list = end_delimiter;
+					}
+					k = k + j - i;
+					free(w);
+				}
+				break;
+			} else {
+				if (word[j - 1] > word[i - 1]) {
+					i = k + 1;
+				}  else {
+					i = i + 1;
+				}
+				j = j + 1;
+			}
+		}
+	}
+	return CFL_list;
+}
+
+
+
 

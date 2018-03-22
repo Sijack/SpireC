@@ -15,5 +15,6 @@ void compute_icfl_recursive(char word[], node_t **curr_pointer_icfl);
 void compute_icfl_recursive_for_alphabet(char word[], node_t **curr_pointer_icfl, char list_alphabet[]);
 node_t *ICFL_recursive(char word[]);
 node_t *ICFL_recursive_for_alphabet(char word[], char list_alphabet[]);
+node_t *CFL_icfl(char word[], int C);
 
 #endif /* FACTORIZATIONS_H_ */
