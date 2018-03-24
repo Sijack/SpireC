@@ -754,6 +754,7 @@ node_t *ICFL_cfl(char word[], int C) {
 			start_delimiter->factor = malloc(3);
 			strcpy(start_delimiter->factor, "<<");
 			if (track_pointer_ICFL_cfl == NULL) {
+				ICFL_cfl_list = start_delimiter;
 				track_pointer_ICFL_cfl = start_delimiter;
 			} else {
 				track_pointer_ICFL_cfl->next = start_delimiter;
@@ -816,6 +817,7 @@ node_t *ICFL_cfl_for_alphabet(char word[], int C, char list_alphabet[]) {
 			start_delimiter->factor = malloc(3);
 			strcpy(start_delimiter->factor, "<<");
 			if (track_pointer_ICFL_cfl == NULL) {
+				ICFL_cfl_list = start_delimiter;
 				track_pointer_ICFL_cfl = start_delimiter;
 			} else {
 				track_pointer_ICFL_cfl->next = start_delimiter;
