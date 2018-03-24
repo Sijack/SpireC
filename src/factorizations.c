@@ -753,8 +753,12 @@ node_t *ICFL_cfl(char word[], int C) {
 			node_t *start_delimiter = (node_t *) malloc(sizeof(node_t));
 			start_delimiter->factor = malloc(3);
 			strcpy(start_delimiter->factor, "<<");
-			track_pointer_ICFL_cfl->next = start_delimiter;
-			track_pointer_ICFL_cfl = track_pointer_ICFL_cfl->next;
+			if (track_pointer_ICFL_cfl == NULL) {
+				track_pointer_ICFL_cfl = start_delimiter;
+			} else {
+				track_pointer_ICFL_cfl->next = start_delimiter;
+				track_pointer_ICFL_cfl = track_pointer_ICFL_cfl->next;
+			}
 
 			//Insert << to indicate the begin of the subdecomposition of w
 			node_t *end_delimiter = (node_t *) malloc(sizeof(node_t));
@@ -811,8 +815,12 @@ node_t *ICFL_cfl_for_alphabet(char word[], int C, char list_alphabet[]) {
 			node_t *start_delimiter = (node_t *) malloc(sizeof(node_t));
 			start_delimiter->factor = malloc(3);
 			strcpy(start_delimiter->factor, "<<");
-			track_pointer_ICFL_cfl->next = start_delimiter;
-			track_pointer_ICFL_cfl = track_pointer_ICFL_cfl->next;
+			if (track_pointer_ICFL_cfl == NULL) {
+				track_pointer_ICFL_cfl = start_delimiter;
+			} else {
+				track_pointer_ICFL_cfl->next = start_delimiter;
+				track_pointer_ICFL_cfl = track_pointer_ICFL_cfl->next;
+			}
 
 			//Insert << to indicate the begin of the subdecomposition of w
 			node_t *end_delimiter = (node_t *) malloc(sizeof(node_t));

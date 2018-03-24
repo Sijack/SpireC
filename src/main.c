@@ -4,16 +4,35 @@
 
 int main() {
 
-	char *word = "TCAGTGGAGCCTGGGGTAAAATCAACCCATCTAGAGCACATGCATGGGAAGGGCAGTGGGTGATTCCCTAAAGAATACATGGGTTTTGTTACCAGAAGAAGGGAGTAATTGCTGGGCAGTTAAAGCCACCCATGTCATTTCATCACTGGTGTACATTTTTCCTGATTCTAATCACTGGACTGATAGTCTGCTTGGCTTCATTCAGCAGTGCTACTCTCTCATGTATGAGGGAAGAGCGTTGGAACCGAAAGGGTTTG";
-	char *list_alphabet = "TGCA";
+	char *word;
+	char *list_alphabet = "TNGCA"; //N
 	int C = 10;
+	char *path = "./fasta/example.fasta";
+	char buff[255];
 
-	if (check_word_and_alphabet(word, list_alphabet) == 0) //false
-		return EXIT_FAILURE;
-	//atexit(report_mem_leak); //for mem_leak_detector
+	FILE *fp;
+	fp = fopen(path, "r");
 
-//	int i;
-//	for (i = 0; i < 10000; i++) {
+	if (fp == NULL) {
+		printf("\n\nErrore lettura fasta\n\n");
+		exit(EXIT_FAILURE);
+	}
+
+	while (fgets(buff, 255, fp) != NULL) {
+		printf("\n\n\n\n\t%s", buff);
+		//tenere traccia di id
+		if (buff[0] == '>') {
+			fgets(buff, 255, fp);
+		}
+
+		if (strchr(buff, '\n') != NULL)
+			word = substring(buff, 0, strlen(buff) - 1);
+		else
+			strcpy(word, buff);
+
+		if (check_word_and_alphabet(word, list_alphabet) == 0) //false
+			return EXIT_FAILURE;
+		//atexit(report_mem_leak); //for mem_leak_detector
 
 		printf("\n\nCFL:\n");
 		node_t *node = CFL(word);
@@ -62,10 +81,10 @@ int main() {
 		print_list(node8);
 
 		free_list(node8);
-//	}
+
+		free(word);
+	}
 
 	return EXIT_SUCCESS;
 }
-
-
 
