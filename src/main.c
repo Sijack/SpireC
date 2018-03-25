@@ -1,11 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "factorizations.h"
 
 int main() {
 
 	char *word;
-	char *list_alphabet = "TNGCA"; //N
+	char *list_alphabet = "NTGCA"; //N?
 	int C = 10;
 	char *path = "./fasta/example.fasta";
 	char buff[255];
@@ -17,18 +18,22 @@ int main() {
 		printf("\n\nErrore lettura fasta\n\n");
 		exit(EXIT_FAILURE);
 	}
-
+	int i = 0;
 	while (fgets(buff, 255, fp) != NULL) {
-		printf("\n\n\n\n\t%s", buff);
+		i++;
+		printf("\n\n\n\n\t%s\n\t%d\n", buff, i++);
 		//tenere traccia di id
+
 		if (buff[0] == '>') {
 			fgets(buff, 255, fp);
 		}
 
 		if (strchr(buff, '\n') != NULL)
 			word = substring(buff, 0, strlen(buff) - 1);
-		else
+		else {
+			word = malloc (strlen(buff) + 1);
 			strcpy(word, buff);
+		}
 
 		if (check_word_and_alphabet(word, list_alphabet) == 0) //false
 			return EXIT_FAILURE;
@@ -84,7 +89,7 @@ int main() {
 
 		free(word);
 	}
-
+	fclose(fp);
 	return EXIT_SUCCESS;
 }
 
