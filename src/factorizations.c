@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <pthread.h>
 #include "utils.h"
 
 int index_in_alphabet(char t, char typ_alphabet_list[]) {
@@ -846,4 +847,97 @@ node_t *ICFL_cfl_for_alphabet(char word[], int C, char list_alphabet[]) {
 	track_pointer_ICFL_cfl->next = NULL;
 	free_list(icfl_list);
 	return ICFL_cfl_list;
+}
+
+//multithreading
+// ------------------------ CFL_icfl ---------------------------------------------------------------------
+
+void *ICFL_thread(void *args) {
+	params *parameters = (params *) args;
+	node_t *ICFL_list = ICFL_recursive(parameters->w);
+
+	while(ICFL_list != NULL) {
+		node_t *tmp = ICFL_list;
+		ICFL_list = ICFL_list->next;
+		tmp->next = parameters->start_d;
+		parameters->start_d = tmp;
+	}
+
+	parameters->end_d->next = parameters->start_d;
+
+	free(parameters->w);//list_alphabet
+	free(parameters);
+
+	return EXIT_SUCCESS;
+}
+
+// CFL factorization - ICFL subdecomposition
+node_t *CFL_icfl_parallel(char word[], int C) {
+	node_t *CFL_list = NULL;
+	int k = 0, i, j, word_len = strlen(word);
+	char *w;
+	node_thread *thread_list = NULL;
+
+	while(k < word_len) {
+		i = k + 1;
+		j = k + 2;
+
+		while(1) {
+			if ((j == (word_len + 1)) || (word[j - 1] < word[i - 1])) {
+				while (k < i) {
+					w = substring(word, k, k + j - i);
+					if (strlen(w) <= C) {
+						node_t *cfl_node = (node_t *) malloc(sizeof(node_t));
+						cfl_node->factor = malloc(strlen(w) + 1);
+						strcpy(cfl_node->factor, w);
+						cfl_node->next = CFL_list;
+						CFL_list = cfl_node;
+					} else {
+						//Insert << to indicate the begin of the subdecomposition of w
+						node_t *start_delimiter = (node_t *) malloc(sizeof(node_t));
+						start_delimiter->factor = malloc(3);
+						strcpy(start_delimiter->factor, "<<");
+						start_delimiter->next = CFL_list;
+
+						//Insert << to indicate the begin of the subdecomposition of w
+						node_t *end_delimiter = (node_t *) malloc(sizeof(node_t));
+						end_delimiter->factor = malloc(3);
+						strcpy(end_delimiter->factor, ">>");
+						CFL_list = end_delimiter;
+
+						params *parameters = (params *) malloc(sizeof(params));
+						parameters->w = (char *) malloc(strlen(w) + 1);
+						strcpy(parameters->w, w);
+						parameters->start_d = start_delimiter;
+						parameters->end_d = end_delimiter;
+
+						node_thread *new_thread = (node_thread *) malloc(sizeof(node_thread));
+						new_thread->next = thread_list;
+						thread_list = new_thread;
+
+						pthread_create(&new_thread->tid, NULL, ICFL_thread, (void *) parameters);
+					}
+					k = k + j - i;
+					free(w);
+				}
+				break;
+			} else {
+				if (word[j - 1] > word[i - 1]) {
+					i = k + 1;
+				}  else {
+					i = i + 1;
+				}
+				j = j + 1;
+			}
+		}
+	}
+	void *t_ret;
+	while (thread_list != NULL) {
+		node_thread *tmp = thread_list;
+		pthread_join(thread_list->tid, &t_ret);
+		thread_list = thread_list->next;
+		free(tmp);
+	}
+
+	return CFL_list;
 }

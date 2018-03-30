@@ -2,12 +2,25 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
+#include <pthread.h>
 
 //struct of any list's node, generally nodes are considered in last-first order
 typedef struct node {
     char *factor;
     struct node *next;
 } node_t;
+
+typedef struct node_th {
+	pthread_t tid;
+	struct node_th *next;
+} node_thread;
+
+typedef struct param {
+	char *w;
+	char *list_alphabet;
+	node_t *start_d;
+	node_t *end_d;
+} params;
 
 int check_word_and_alphabet(char word[], char list_alphabet[]) {
 

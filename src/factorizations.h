@@ -19,5 +19,7 @@ node_t *CFL_icfl(char word[], int C);
 node_t *CFL_icfl_for_alphabet(char word[], int C, char list_alphabet[]);
 node_t *ICFL_cfl(char word[], int C);
 node_t *ICFL_cfl_for_alphabet(char word[], int C, char list_alphabet[]);
+void *ICFL_thread(void *args);
+node_t *CFL_icfl_parallel(char word[], int C);
 
 #endif /* FACTORIZATIONS_H_ */

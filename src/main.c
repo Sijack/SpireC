@@ -87,6 +87,12 @@ int main() {
 
 		free_list(node8);
 
+		printf("\n\nCFL_icfl_parallel:\n");
+		node_t *node9 = CFL_icfl_parallel(word, C);
+		print_list_reverse(node9);
+
+		free_list(node9);
+
 		free(word);
 	}
 	fclose(fp);

@@ -1,5 +1,5 @@
 SpireC: main.o factorizations.o utils.o
-	gcc -o SpireC main.o factorizations.o utils.o
+	gcc -pthread -o SpireC main.o factorizations.o utils.o
 
 main.o: src/main.c src/factorizations.h
 	gcc -c src/main.c
