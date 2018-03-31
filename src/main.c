@@ -38,7 +38,7 @@ int main() {
 		if (check_word_and_alphabet(word, list_alphabet) == 0) //false
 			return EXIT_FAILURE;
 		//atexit(report_mem_leak); //for mem_leak_detector
-/*
+
 		printf("\n\nCFL:\n");
 		node_t *node = CFL(word);
 		print_list_reverse(node);
@@ -74,7 +74,7 @@ int main() {
 		print_list_reverse(node6);
 
 		free_list(node6);
-*/
+
 		printf("\n\nCFL_icfl_for_alphabet:\n");
 		node_t *node7 = CFL_icfl_for_alphabet(word, C, list_alphabet);
 		print_list_reverse(node7);
@@ -86,7 +86,7 @@ int main() {
 		print_list_reverse(node8);
 
 		free_list(node8);
-/*
+
 		printf("\n\nICFL_cfl:\n");
 		node_t *node9 = ICFL_cfl(word, C);
 		print_list(node9);
@@ -110,7 +110,7 @@ int main() {
 		print_list(node12);
 
 		free_list(node12);
-*/
+
 		printf("\n");
 		free(word);
 	}

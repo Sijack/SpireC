@@ -681,7 +681,7 @@ node_t *CFL_icfl_for_alphabet(char word[], int C, char list_alphabet[]) {
 						cfl_node->next = CFL_list;
 						CFL_list = cfl_node;
 					} else {
-						node_t *ICFL_list = ICFL_recursive(w);
+						node_t *ICFL_list = ICFL_recursive_for_alphabet(w, list_alphabet);
 						//Insert << to indicate the begin of the subdecomposition of w
 						node_t *start_delimiter = (node_t *) malloc(sizeof(node_t));
 						start_delimiter->factor = malloc(3);
