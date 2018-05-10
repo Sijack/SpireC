@@ -5,12 +5,12 @@
 
 int main() {
 
-	char *word;
+	char *word = "TCAGGTCATCTGAAAAAATCATAAAGTAAAACCACAAAGCTCTGATTTGAAAAACATCATCTAAGACAAGAAATCATTCGATGTCTGAACATAGTTGGAACCGAAAGGGTTTGAATTCAAACCCTTTCGGTTCCAACCTTTTAAATAAGTAAAGCATTGAAGATACTCATTATTTGTATCCTAATCTAGTACTCAAAATGCAGATGACTTCTTATTCTTTAAGAAGGAAGGATCTATAATAACANANANAGNGNAANANAGAANACTNGNGCG";
 	char *list_alphabet = "NTGCA"; //N?
 	int C = 10;
 	char *path = "./fasta/example.fasta";
 	char buff[255];
-
+/*
 	FILE *fp;
 	fp = fopen(path, "r");
 
@@ -62,13 +62,13 @@ int main() {
 		print_list(node4);
 
 		free_list(node4);
-
+*/
 		printf("\n\nCFL_icfl:\n");
 		node_t *node5 = CFL_icfl(word, C);
 		print_list_reverse(node5);
 
 		free_list(node5);
-
+/*
 		printf("\n\nCFL_icfl_parallel:\n");
 		node_t *node6 = CFL_icfl_parallel(word, C);
 		print_list_reverse(node6);
@@ -116,6 +116,6 @@ int main() {
 	}
 
 	fclose(fp);
-	return EXIT_SUCCESS;
+*/	return EXIT_SUCCESS;
 }
 

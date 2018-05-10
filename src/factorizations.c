@@ -30,7 +30,7 @@ node_t *CFL(char word[]) {
         while (1) {
             if (j == word_len + 1 || word[j - 1] < word[i - 1]) {
                 while (k < i) {
-                	node_t *node = (node_t *) malloc(sizeof(node_t));
+                	node_t *node =  malloc(sizeof(node_t));
                 	node->factor = substring(word, k, k + j - i);
                 	node->next = current_pointer;
                 	current_pointer = node;
@@ -67,7 +67,7 @@ node_t *CFL_for_alphabet(char word[], char list_alphabet[]) {
         while (1) {
             if (j == word_len + 1 || index_in_alphabet(word[j - 1], list_alphabet) < index_in_alphabet(word[i - 1], list_alphabet)) {
                 while (k < i) {
-                	node_t *node = (node_t *) malloc(sizeof(node_t));
+                	node_t *node =  malloc(sizeof(node_t));
                 	node->factor = substring(word, k, k + j - i);
                 	node->next = current_pointer;
                 	current_pointer = node;
@@ -98,10 +98,10 @@ node_t *find_pre(char word[]) {
 
     if (word_len == 1) {
 
-    	fact1 = (node_t *) malloc(sizeof(node_t));
+    	fact1 =  malloc(sizeof(node_t));
 
 		char *new_fact;
-		new_fact = (char *) malloc(word_len + 2);
+		new_fact =  malloc(word_len + 2);
 		int z;
 		for (z = 0; z < word_len; z++){
 			new_fact[z] = word[z];
@@ -113,7 +113,7 @@ node_t *find_pre(char word[]) {
 		//strcat(fact1->factor, word);
 		//strcat(fact1->factor, "$");
 
-    	fact2 = (node_t *) malloc(sizeof(node_t));
+    	fact2 =  malloc(sizeof(node_t));
     	fact2->factor = malloc(1);
     	strcpy(fact2->factor, "");
     	//fact2->factor = "";
@@ -137,10 +137,10 @@ node_t *find_pre(char word[]) {
 
         if (j == word_len) {
 
-        	fact1 = (node_t *) malloc(sizeof(node_t));
+        	fact1 =  malloc(sizeof(node_t));
 
         	char *new_fact;
-        	new_fact = (char *) malloc(word_len + 2);
+        	new_fact =  malloc(word_len + 2);
         	int z;
         	for (z = 0; z < word_len; z++){
         		new_fact[z] = word[z];
@@ -152,7 +152,7 @@ node_t *find_pre(char word[]) {
         	//strcat(fact1->factor, word);
         	//strcat(fact1->factor, "$");
 
-			fact2 = (node_t *) malloc(sizeof(node_t));
+			fact2 =  malloc(sizeof(node_t));
 			fact2->factor = malloc(1);
 			strcpy(fact2->factor, "");
 			//fact2->factor = "";
@@ -164,10 +164,10 @@ node_t *find_pre(char word[]) {
 
         } else {
 
-        	fact1 = (node_t *) malloc(sizeof(node_t));
+        	fact1 =  malloc(sizeof(node_t));
         	fact1->factor = substring(word, 0, j + 1);
 
-        	fact2 = (node_t *) malloc(sizeof(node_t));
+        	fact2 =  malloc(sizeof(node_t));
         	fact2->factor = substring(word, j + 1, word_len);
         	fact2->next = NULL;
 
@@ -186,10 +186,10 @@ node_t *find_pre_for_alphabet(char word[], char list_alphabet[]) {
 
     if (word_len == 1) {
 
-    	fact1 = (node_t *) malloc(sizeof(node_t));
+    	fact1 =  malloc(sizeof(node_t));
 
     	char *new_fact;
-		new_fact = (char *) malloc(word_len + 2);
+		new_fact =  malloc(word_len + 2);
 		int z;
 		for (z = 0; z < word_len; z++){
 			new_fact[z] = word[z];
@@ -201,7 +201,7 @@ node_t *find_pre_for_alphabet(char word[], char list_alphabet[]) {
 		//strcat(fact1->factor, word);
 		//strcat(fact1->factor, "$");
 
-    	fact2 = (node_t *) malloc(sizeof(node_t));
+    	fact2 =  malloc(sizeof(node_t));
     	fact2->factor = malloc(1);
 		strcpy(fact2->factor, "");
 		//fact2->factor = "";
@@ -225,10 +225,10 @@ node_t *find_pre_for_alphabet(char word[], char list_alphabet[]) {
 
         if (j == word_len) {
 
-        	fact1 = (node_t *) malloc(sizeof(node_t));
+        	fact1 =  malloc(sizeof(node_t));
 
         	char *new_fact;
-			new_fact = (char *) malloc(word_len + 2);
+			new_fact =  malloc(word_len + 2);
 			int z;
 			for (z = 0; z < word_len; z++){
 				new_fact[z] = word[z];
@@ -240,7 +240,7 @@ node_t *find_pre_for_alphabet(char word[], char list_alphabet[]) {
 			//strcat(fact1->factor, word);
 			//strcat(fact1->factor, "$");
 
-			fact2 = (node_t *) malloc(sizeof(node_t));
+			fact2 =  malloc(sizeof(node_t));
 			fact2->factor = malloc(1);
 			strcpy(fact2->factor, "");
 			//fact2->factor = "";
@@ -252,10 +252,10 @@ node_t *find_pre_for_alphabet(char word[], char list_alphabet[]) {
 
         } else {
 
-        	fact1 = (node_t *) malloc(sizeof(node_t));
+        	fact1 =  malloc(sizeof(node_t));
         	fact1->factor = substring(word, 0, j + 1);
 
-        	fact2 = (node_t *) malloc(sizeof(node_t));
+        	fact2 =  malloc(sizeof(node_t));
         	fact2->factor = substring(word, j + 1, word_len);
         	fact2->next = NULL;
 
@@ -294,10 +294,10 @@ node_t *find_bre(char *w, char *v) {
 
     if ((v[0] == '\0') && (strchr(w, '$') != NULL)) {
 
-    	fact1 = (node_t *) malloc(sizeof(node_t));
-    	fact2 = (node_t *) malloc(sizeof(node_t));
-    	fact3 = (node_t *) malloc(sizeof(node_t));
-    	last_index = (node_t *) malloc(sizeof(node_t));
+    	fact1 =  malloc(sizeof(node_t));
+    	fact2 =  malloc(sizeof(node_t));
+    	fact3 =  malloc(sizeof(node_t));
+    	last_index =  malloc(sizeof(node_t));
 
     	fact1->factor = malloc(strlen(w) + 1);
     	strcpy(fact1->factor, w);
@@ -336,20 +336,28 @@ node_t *find_bre(char *w, char *v) {
         free(sub);
         free(f);
 
-        fact1 = (node_t *) malloc(sizeof(node_t));
-		fact2 = (node_t *) malloc(sizeof(node_t));
-		fact3 = (node_t *) malloc(sizeof(node_t));
+        sub = NULL;
+        f = NULL;
+
+        fact1 =  malloc(sizeof(node_t));
+		fact2 =  malloc(sizeof(node_t));
+		fact3 =  malloc(sizeof(node_t));
 
 		//count digits in last
 		i = last;
 		int digit_count = 0;
-		while(i != 0) {
-		    i /= 10;
-		    digit_count += 1;
+
+		if(i == 0) {
+			digit_count = 1;
+		} else {
+			while(i != 0) {
+		    	i /= 10;
+		    	digit_count += 1;
+			}
 		}
 
-		last_index = (node_t *) malloc(sizeof(node_t));
-		last_index->factor = (char *) malloc(digit_count + 1);
+		last_index =  malloc(sizeof(node_t));
+		last_index->factor =  malloc(digit_count + 1);
 
 		fact1->factor = substring(w, 0, n - last);
 		fact2->factor = substring(w, n - last, n + 1);
@@ -373,10 +381,10 @@ node_t *find_bre_for_alphabet(char *w, char *v, char list_alphabet[]) {
 
     if ((v[0] == '\0') && (strchr(w, '$') != NULL)) {
 
-    	fact1 = (node_t *) malloc(sizeof(node_t));
-    	fact2 = (node_t *) malloc(sizeof(node_t));
-    	fact3 = (node_t *) malloc(sizeof(node_t));
-    	last_index = (node_t *) malloc(sizeof(node_t));
+    	fact1 =  malloc(sizeof(node_t));
+    	fact2 =  malloc(sizeof(node_t));
+    	fact3 =  malloc(sizeof(node_t));
+    	last_index =  malloc(sizeof(node_t));
 
     	fact1->factor = malloc(strlen(w) + 1);
     	strcpy(fact1->factor, w);
@@ -415,9 +423,12 @@ node_t *find_bre_for_alphabet(char *w, char *v, char list_alphabet[]) {
         free(sub);
         free(f);
 
-        fact1 = (node_t *) malloc(sizeof(node_t));
-		fact2 = (node_t *) malloc(sizeof(node_t));
-		fact3 = (node_t *) malloc(sizeof(node_t));
+        sub = NULL;
+        f = NULL;
+
+        fact1 =  malloc(sizeof(node_t));
+		fact2 =  malloc(sizeof(node_t));
+		fact3 =  malloc(sizeof(node_t));
 
 		//count digits in last
 		i = last;
@@ -427,8 +438,8 @@ node_t *find_bre_for_alphabet(char *w, char *v, char list_alphabet[]) {
 		    digit_count += 1;
 		}
 
-		last_index = (node_t *) malloc(sizeof(node_t));
-		last_index->factor = (char *) malloc(digit_count + 1);
+		last_index =  malloc(sizeof(node_t));
+		last_index->factor =  malloc(digit_count + 1);
 
 		fact1->factor = substring(w, 0, n - last);
 		fact2->factor = substring(w, n - last, n + 1);
@@ -457,11 +468,13 @@ void compute_icfl_recursive(char word[], node_t **curr_pointer_icfl) {
 
     free(fact1);
     free(fact2);
+    fact1 = NULL;
+    fact2 = NULL;
     free_list(pre_pair);
 
     if ((current_bre_quad->next->factor[0] == '\0') && (strchr(current_bre_quad->factor, '$') != NULL)) {
         char *w = current_bre_quad->factor;
-        node_t * icfl_node = (node_t *) malloc(sizeof(node_t));
+        node_t * icfl_node =  malloc(sizeof(node_t));
         icfl_node->factor = substring(w, 0, strlen(w) - 1);
 
         if (*curr_pointer_icfl == NULL) {
@@ -475,7 +488,7 @@ void compute_icfl_recursive(char word[], node_t **curr_pointer_icfl) {
         return;
 
     } else {
-    	char *fact1_fact2 = (char *) malloc(strlen(current_bre_quad->next->factor) + strlen(current_bre_quad->next->next->factor) + 1);
+    	char *fact1_fact2 = malloc(strlen(current_bre_quad->next->factor) + strlen(current_bre_quad->next->next->factor) + 1);
     	fact1_fact2[0] = '\0';
     	strcat(fact1_fact2, current_bre_quad->next->factor);
     	strcat(fact1_fact2, current_bre_quad->next->next->factor);
@@ -483,7 +496,7 @@ void compute_icfl_recursive(char word[], node_t **curr_pointer_icfl) {
         compute_icfl_recursive(fact1_fact2, curr_pointer_icfl);
         if (strlen((*curr_pointer_icfl)->factor) > atoi(current_bre_quad->next->next->next->factor)) {
 
-        	node_t * icfl_node = (node_t *) malloc(sizeof(node_t));
+        	node_t * icfl_node =  malloc(sizeof(node_t));
         	icfl_node->factor = malloc(strlen(current_bre_quad->factor) + 1);
         	strcpy(icfl_node->factor, current_bre_quad->factor);
 
@@ -496,7 +509,7 @@ void compute_icfl_recursive(char word[], node_t **curr_pointer_icfl) {
         	}
 
         } else {
-        	node_t *new_icfl_node = (node_t *) malloc(sizeof(node_t));
+        	node_t *new_icfl_node =  malloc(sizeof(node_t));
         	new_icfl_node->factor = malloc(strlen(current_bre_quad->factor) + 1);
         	strcpy(new_icfl_node->factor, current_bre_quad->factor);
         	//strcat(new_icfl_node->factor, current_bre_quad->factor);
@@ -506,6 +519,7 @@ void compute_icfl_recursive(char word[], node_t **curr_pointer_icfl) {
         	*curr_pointer_icfl = new_icfl_node;
         }
         free(fact1_fact2);
+        fact1_fact2 = NULL;
         free_list(current_bre_quad);
         return;
     }
@@ -524,11 +538,13 @@ void compute_icfl_recursive_for_alphabet(char word[], node_t **curr_pointer_icfl
 
 	free(fact1);
 	free(fact2);
+	fact1 = NULL;
+	fact2 = NULL;
     free_list(pre_pair);
 
     if ((current_bre_quad->next->factor[0] == '\0') && (strchr(current_bre_quad->factor, '$') != NULL)) {
         char *w = current_bre_quad->factor;
-        node_t * icfl_node = (node_t *) malloc(sizeof(node_t));
+        node_t * icfl_node =  malloc(sizeof(node_t));
         icfl_node->factor = substring(w, 0, strlen(w) - 1);
 
         if (*curr_pointer_icfl == NULL) {
@@ -542,7 +558,7 @@ void compute_icfl_recursive_for_alphabet(char word[], node_t **curr_pointer_icfl
         return;
 
     } else {
-    	char *fact1_fact2 = (char *) malloc(strlen(current_bre_quad->next->factor) + strlen(current_bre_quad->next->next->factor) + 1);
+    	char *fact1_fact2 =  malloc(strlen(current_bre_quad->next->factor) + strlen(current_bre_quad->next->next->factor) + 1);
     	fact1_fact2[0] = '\0';
     	strcat(fact1_fact2, current_bre_quad->next->factor);
     	strcat(fact1_fact2, current_bre_quad->next->next->factor);
@@ -550,7 +566,7 @@ void compute_icfl_recursive_for_alphabet(char word[], node_t **curr_pointer_icfl
         compute_icfl_recursive_for_alphabet(fact1_fact2, curr_pointer_icfl, list_alphabet);
         if (strlen((*curr_pointer_icfl)->factor) > atoi(current_bre_quad->next->next->next->factor)) {
 
-        	node_t * icfl_node = (node_t *) malloc(sizeof(node_t));
+        	node_t * icfl_node =  malloc(sizeof(node_t));
         	icfl_node->factor = malloc(strlen(current_bre_quad->factor) + 1);
 			strcpy(icfl_node->factor, current_bre_quad->factor);
 
@@ -564,7 +580,7 @@ void compute_icfl_recursive_for_alphabet(char word[], node_t **curr_pointer_icfl
 
         } else {
 
-        	node_t *new_icfl_node = (node_t *) malloc(sizeof(node_t));
+        	node_t *new_icfl_node =  malloc(sizeof(node_t));
         	new_icfl_node->factor = malloc(strlen(current_bre_quad->factor) + 1);
 			strcpy(new_icfl_node->factor, current_bre_quad->factor);
         	//strcat(new_icfl_node->factor, current_bre_quad->factor);
@@ -574,6 +590,7 @@ void compute_icfl_recursive_for_alphabet(char word[], node_t **curr_pointer_icfl
         	*curr_pointer_icfl = new_icfl_node;
         }
         free(fact1_fact2);
+        fact1_fact2 = NULL;
         free_list(current_bre_quad);
         return;
     }
@@ -616,7 +633,7 @@ node_t *CFL_icfl(char word[], int C) {
 				while (k < i) {
 					w = substring(word, k, k + j - i);
 					if (strlen(w) <= C) {
-						node_t *cfl_node = (node_t *) malloc(sizeof(node_t));
+						node_t *cfl_node =  malloc(sizeof(node_t));
 						cfl_node->factor = malloc(strlen(w) + 1);
 						strcpy(cfl_node->factor, w);
 						cfl_node->next = CFL_list;
@@ -624,7 +641,7 @@ node_t *CFL_icfl(char word[], int C) {
 					} else {
 						node_t *ICFL_list = ICFL_recursive(w);
 						//Insert << to indicate the begin of the subdecomposition of w
-						node_t *start_delimiter = (node_t *) malloc(sizeof(node_t));
+						node_t *start_delimiter =  malloc(sizeof(node_t));
 						start_delimiter->factor = malloc(3);
 						strcpy(start_delimiter->factor, "<<");
 						start_delimiter->next = CFL_list;
@@ -638,7 +655,7 @@ node_t *CFL_icfl(char word[], int C) {
 						}
 
 						//Insert << to indicate the begin of the subdecomposition of w
-						node_t *end_delimiter = (node_t *) malloc(sizeof(node_t));
+						node_t *end_delimiter =  malloc(sizeof(node_t));
 						end_delimiter->factor = malloc(3);
 						strcpy(end_delimiter->factor, ">>");
 						end_delimiter->next = CFL_list;
@@ -646,6 +663,7 @@ node_t *CFL_icfl(char word[], int C) {
 					}
 					k = k + j - i;
 					free(w);
+					w = NULL;
 				}
 				break;
 			} else {
@@ -675,7 +693,7 @@ node_t *CFL_icfl_for_alphabet(char word[], int C, char list_alphabet[]) {
 				while (k < i) {
 					w = substring(word, k, k + j - i);
 					if (strlen(w) <= C) {
-						node_t *cfl_node = (node_t *) malloc(sizeof(node_t));
+						node_t *cfl_node =  malloc(sizeof(node_t));
 						cfl_node->factor = malloc(strlen(w) + 1);
 						strcpy(cfl_node->factor, w);
 						cfl_node->next = CFL_list;
@@ -683,7 +701,7 @@ node_t *CFL_icfl_for_alphabet(char word[], int C, char list_alphabet[]) {
 					} else {
 						node_t *ICFL_list = ICFL_recursive_for_alphabet(w, list_alphabet);
 						//Insert << to indicate the begin of the subdecomposition of w
-						node_t *start_delimiter = (node_t *) malloc(sizeof(node_t));
+						node_t *start_delimiter =  malloc(sizeof(node_t));
 						start_delimiter->factor = malloc(3);
 						strcpy(start_delimiter->factor, "<<");
 						start_delimiter->next = CFL_list;
@@ -697,7 +715,7 @@ node_t *CFL_icfl_for_alphabet(char word[], int C, char list_alphabet[]) {
 						}
 
 						//Insert << to indicate the begin of the subdecomposition of w
-						node_t *end_delimiter = (node_t *) malloc(sizeof(node_t));
+						node_t *end_delimiter =  malloc(sizeof(node_t));
 						end_delimiter->factor = malloc(3);
 						strcpy(end_delimiter->factor, ">>");
 						end_delimiter->next = CFL_list;
@@ -705,6 +723,7 @@ node_t *CFL_icfl_for_alphabet(char word[], int C, char list_alphabet[]) {
 					}
 					k = k + j - i;
 					free(w);
+					w = NULL;
 				}
 				break;
 			} else {
@@ -735,13 +754,13 @@ node_t *ICFL_cfl(char word[], int C) {
 	while (track_pointer_icfl != NULL) {
 		if (strlen(track_pointer_icfl->factor) <= C) {
 			if (ICFL_cfl_list == NULL) {
-				ICFL_cfl_list = (node_t *) malloc(sizeof(node_t));
+				ICFL_cfl_list =  malloc(sizeof(node_t));
 				ICFL_cfl_list->factor = malloc(strlen(track_pointer_icfl->factor) + 1);
 				strcpy(ICFL_cfl_list->factor, track_pointer_icfl->factor);
 			    ICFL_cfl_list->next = NULL;
 			    track_pointer_ICFL_cfl = ICFL_cfl_list;
 			} else {
-				node_t *new_node = (node_t *) malloc(sizeof(node_t));
+				node_t *new_node =  malloc(sizeof(node_t));
 				new_node->factor = malloc(strlen(track_pointer_icfl->factor) + 1);
 				strcpy(new_node->factor, track_pointer_icfl->factor);
 				new_node->next = NULL;
@@ -751,7 +770,7 @@ node_t *ICFL_cfl(char word[], int C) {
 		} else {
 			node_t *CFL_list = CFL(track_pointer_icfl->factor);
 			//Insert << to indicate the begin of the subdecomposition of w
-			node_t *start_delimiter = (node_t *) malloc(sizeof(node_t));
+			node_t *start_delimiter =  malloc(sizeof(node_t));
 			start_delimiter->factor = malloc(3);
 			strcpy(start_delimiter->factor, "<<");
 			if (track_pointer_ICFL_cfl == NULL) {
@@ -763,7 +782,7 @@ node_t *ICFL_cfl(char word[], int C) {
 			}
 
 			//Insert << to indicate the begin of the subdecomposition of w
-			node_t *end_delimiter = (node_t *) malloc(sizeof(node_t));
+			node_t *end_delimiter =  malloc(sizeof(node_t));
 			end_delimiter->factor = malloc(3);
 			strcpy(end_delimiter->factor, ">>");
 
@@ -798,13 +817,13 @@ node_t *ICFL_cfl_for_alphabet(char word[], int C, char list_alphabet[]) {
 	while (track_pointer_icfl != NULL) {
 		if (strlen(track_pointer_icfl->factor) <= C) {
 			if (ICFL_cfl_list == NULL) {
-				ICFL_cfl_list = (node_t *) malloc(sizeof(node_t));
+				ICFL_cfl_list =  malloc(sizeof(node_t));
 				ICFL_cfl_list->factor = malloc(strlen(track_pointer_icfl->factor) + 1);
 				strcpy(ICFL_cfl_list->factor, track_pointer_icfl->factor);
 			    ICFL_cfl_list->next = NULL;
 			    track_pointer_ICFL_cfl = ICFL_cfl_list;
 			} else {
-				node_t *new_node = (node_t *) malloc(sizeof(node_t));
+				node_t *new_node =  malloc(sizeof(node_t));
 				new_node->factor = malloc(strlen(track_pointer_icfl->factor) + 1);
 				strcpy(new_node->factor, track_pointer_icfl->factor);
 				new_node->next = NULL;
@@ -814,7 +833,7 @@ node_t *ICFL_cfl_for_alphabet(char word[], int C, char list_alphabet[]) {
 		} else {
 			node_t *CFL_list = CFL_for_alphabet(track_pointer_icfl->factor, list_alphabet);
 			//Insert << to indicate the begin of the subdecomposition of w
-			node_t *start_delimiter = (node_t *) malloc(sizeof(node_t));
+			node_t *start_delimiter =  malloc(sizeof(node_t));
 			start_delimiter->factor = malloc(3);
 			strcpy(start_delimiter->factor, "<<");
 			if (track_pointer_ICFL_cfl == NULL) {
@@ -826,7 +845,7 @@ node_t *ICFL_cfl_for_alphabet(char word[], int C, char list_alphabet[]) {
 			}
 
 			//Insert << to indicate the begin of the subdecomposition of w
-			node_t *end_delimiter = (node_t *) malloc(sizeof(node_t));
+			node_t *end_delimiter =  malloc(sizeof(node_t));
 			end_delimiter->factor = malloc(3);
 			strcpy(end_delimiter->factor, ">>");
 
@@ -853,7 +872,7 @@ node_t *ICFL_cfl_for_alphabet(char word[], int C, char list_alphabet[]) {
 // ------------------------ CFL_icfl ---------------------------------------------------------------------
 
 void *ICFL_thread(void *args) {
-	params *parameters = (params *) args;
+	params *parameters =  args;
 	node_t *ICFL_list;
 	if (parameters->list_alphabet == NULL) {
 		ICFL_list = ICFL_recursive(parameters->w);
@@ -879,7 +898,7 @@ void *ICFL_thread(void *args) {
 }
 
 void *CFL_thread(void *args) {
-	params *parameters = (params *) args;
+	params *parameters =  args;
 	node_t *CFL_list;
 	if (parameters->list_alphabet == NULL) {
 		CFL_list = CFL(parameters->w);
@@ -921,26 +940,26 @@ node_t *CFL_icfl_parallel(char word[], int C) {
 				while (k < i) {
 					w = substring(word, k, k + j - i);
 					if (strlen(w) <= C) {
-						node_t *cfl_node = (node_t *) malloc(sizeof(node_t));
+						node_t *cfl_node =  malloc(sizeof(node_t));
 						cfl_node->factor = malloc(strlen(w) + 1);
 						strcpy(cfl_node->factor, w);
 						cfl_node->next = CFL_list;
 						CFL_list = cfl_node;
 					} else {
 						//Insert << to indicate the begin of the subdecomposition of w
-						node_t *start_delimiter = (node_t *) malloc(sizeof(node_t));
+						node_t *start_delimiter =  malloc(sizeof(node_t));
 						start_delimiter->factor = malloc(3);
 						strcpy(start_delimiter->factor, "<<");
 						start_delimiter->next = CFL_list;
 
 						//Insert << to indicate the begin of the subdecomposition of w
-						node_t *end_delimiter = (node_t *) malloc(sizeof(node_t));
+						node_t *end_delimiter =  malloc(sizeof(node_t));
 						end_delimiter->factor = malloc(3);
 						strcpy(end_delimiter->factor, ">>");
 						CFL_list = end_delimiter;
 
-						params *parameters = (params *) malloc(sizeof(params));
-						parameters->w = (char *) malloc(strlen(w) + 1);
+						params *parameters =  malloc(sizeof(params));
+						parameters->w =  malloc(strlen(w) + 1);
 						strcpy(parameters->w, w);
 						parameters->list_alphabet = NULL;
 						parameters->start_d = start_delimiter;
@@ -992,28 +1011,28 @@ node_t *CFL_icfl_for_alphabet_parallel(char word[], int C, char list_alphabet[])
 				while (k < i) {
 					w = substring(word, k, k + j - i);
 					if (strlen(w) <= C) {
-						node_t *cfl_node = (node_t *) malloc(sizeof(node_t));
+						node_t *cfl_node =  malloc(sizeof(node_t));
 						cfl_node->factor = malloc(strlen(w) + 1);
 						strcpy(cfl_node->factor, w);
 						cfl_node->next = CFL_list;
 						CFL_list = cfl_node;
 					} else {
 						//Insert << to indicate the begin of the subdecomposition of w
-						node_t *start_delimiter = (node_t *) malloc(sizeof(node_t));
+						node_t *start_delimiter =  malloc(sizeof(node_t));
 						start_delimiter->factor = malloc(3);
 						strcpy(start_delimiter->factor, "<<");
 						start_delimiter->next = CFL_list;
 
 						//Insert << to indicate the begin of the subdecomposition of w
-						node_t *end_delimiter = (node_t *) malloc(sizeof(node_t));
+						node_t *end_delimiter =  malloc(sizeof(node_t));
 						end_delimiter->factor = malloc(3);
 						strcpy(end_delimiter->factor, ">>");
 						CFL_list = end_delimiter;
 
-						params *parameters = (params *) malloc(sizeof(params));
-						parameters->w = (char *) malloc(strlen(w) + 1);
+						params *parameters =  malloc(sizeof(params));
+						parameters->w =  malloc(strlen(w) + 1);
 						strcpy(parameters->w, w);
-						parameters->list_alphabet = (char *) malloc(strlen(list_alphabet) + 1);
+						parameters->list_alphabet =  malloc(strlen(list_alphabet) + 1);
 						strcpy(parameters->list_alphabet, list_alphabet);
 						parameters->start_d = start_delimiter;
 						parameters->end_d = end_delimiter;
@@ -1063,13 +1082,13 @@ node_t *ICFL_cfl_parallel(char word[], int C) {
 	while (track_pointer_icfl != NULL) {
 		if (strlen(track_pointer_icfl->factor) <= C) {
 			if (ICFL_cfl_list == NULL) {
-				ICFL_cfl_list = (node_t *) malloc(sizeof(node_t));
+				ICFL_cfl_list =  malloc(sizeof(node_t));
 				ICFL_cfl_list->factor = malloc(strlen(track_pointer_icfl->factor) + 1);
 				strcpy(ICFL_cfl_list->factor, track_pointer_icfl->factor);
 			    ICFL_cfl_list->next = NULL;
 			    track_pointer_ICFL_cfl = ICFL_cfl_list;
 			} else {
-				node_t *new_node = (node_t *) malloc(sizeof(node_t));
+				node_t *new_node =  malloc(sizeof(node_t));
 				new_node->factor = malloc(strlen(track_pointer_icfl->factor) + 1);
 				strcpy(new_node->factor, track_pointer_icfl->factor);
 				new_node->next = NULL;
@@ -1078,7 +1097,7 @@ node_t *ICFL_cfl_parallel(char word[], int C) {
 			}
 		} else {
 			//Insert << to indicate the begin of the subdecomposition of w
-			node_t *start_delimiter = (node_t *) malloc(sizeof(node_t));
+			node_t *start_delimiter =  malloc(sizeof(node_t));
 			start_delimiter->factor = malloc(3);
 			strcpy(start_delimiter->factor, "<<");
 
@@ -1091,14 +1110,14 @@ node_t *ICFL_cfl_parallel(char word[], int C) {
 			}
 
 			//Insert << to indicate the begin of the subdecomposition of w
-			node_t *end_delimiter = (node_t *) malloc(sizeof(node_t));
+			node_t *end_delimiter =  malloc(sizeof(node_t));
 			end_delimiter->factor = malloc(3);
 			strcpy(end_delimiter->factor, ">>");
 
 			track_pointer_ICFL_cfl = end_delimiter;
 
-			params *parameters = (params *) malloc(sizeof(params));
-			parameters->w = (char *) malloc(strlen(track_pointer_icfl->factor) + 1);
+			params *parameters =  malloc(sizeof(params));
+			parameters->w =  malloc(strlen(track_pointer_icfl->factor) + 1);
 			strcpy(parameters->w, track_pointer_icfl->factor);
 			parameters->list_alphabet = NULL;
 			parameters->start_d = start_delimiter;
@@ -1139,13 +1158,13 @@ node_t *ICFL_cfl_for_alphabet_parallel(char word[], int C, char list_alphabet[])
 	while (track_pointer_icfl != NULL) {
 		if (strlen(track_pointer_icfl->factor) <= C) {
 			if (ICFL_cfl_list == NULL) {
-				ICFL_cfl_list = (node_t *) malloc(sizeof(node_t));
+				ICFL_cfl_list =  malloc(sizeof(node_t));
 				ICFL_cfl_list->factor = malloc(strlen(track_pointer_icfl->factor) + 1);
 				strcpy(ICFL_cfl_list->factor, track_pointer_icfl->factor);
 			    ICFL_cfl_list->next = NULL;
 			    track_pointer_ICFL_cfl = ICFL_cfl_list;
 			} else {
-				node_t *new_node = (node_t *) malloc(sizeof(node_t));
+				node_t *new_node =  malloc(sizeof(node_t));
 				new_node->factor = malloc(strlen(track_pointer_icfl->factor) + 1);
 				strcpy(new_node->factor, track_pointer_icfl->factor);
 				new_node->next = NULL;
@@ -1154,7 +1173,7 @@ node_t *ICFL_cfl_for_alphabet_parallel(char word[], int C, char list_alphabet[])
 			}
 		} else {
 			//Insert << to indicate the begin of the subdecomposition of w
-			node_t *start_delimiter = (node_t *) malloc(sizeof(node_t));
+			node_t *start_delimiter =  malloc(sizeof(node_t));
 			start_delimiter->factor = malloc(3);
 			strcpy(start_delimiter->factor, "<<");
 
@@ -1167,16 +1186,16 @@ node_t *ICFL_cfl_for_alphabet_parallel(char word[], int C, char list_alphabet[])
 			}
 
 			//Insert << to indicate the begin of the subdecomposition of w
-			node_t *end_delimiter = (node_t *) malloc(sizeof(node_t));
+			node_t *end_delimiter =  malloc(sizeof(node_t));
 			end_delimiter->factor = malloc(3);
 			strcpy(end_delimiter->factor, ">>");
 
 			track_pointer_ICFL_cfl = end_delimiter;
 
-			params *parameters = (params *) malloc(sizeof(params));
-			parameters->w = (char *) malloc(strlen(track_pointer_icfl->factor) + 1);
+			params *parameters =  malloc(sizeof(params));
+			parameters->w =  malloc(strlen(track_pointer_icfl->factor) + 1);
 			strcpy(parameters->w, track_pointer_icfl->factor);
-			parameters->list_alphabet = (char *) malloc(strlen(list_alphabet) + 1);
+			parameters->list_alphabet =  malloc(strlen(list_alphabet) + 1);
 			strcpy(parameters->list_alphabet, list_alphabet);
 			parameters->start_d = start_delimiter;
 			parameters->end_d = end_delimiter;

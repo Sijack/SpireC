@@ -49,12 +49,19 @@ int check_word_and_alphabet(char word[], char list_alphabet[]) {
 
 void free_list(node_t* head) {
 	node_t* tmp;
+	char *fact;
 
 	while (head != NULL) {
 		tmp = head;
 		head = head->next;
-		free(tmp->factor);
+		fact = tmp->factor;
+		//free(tmp->factor);
+		tmp->factor = NULL;
+		tmp->next = NULL;
 		free(tmp);
+		free(fact);
+		fact = NULL;
+		tmp = NULL;
 	}
 }
 
@@ -86,7 +93,7 @@ void print_list(node_t *node) {
 
 char *substring(char word[], int x, int y) {
 	int k = 0, i;
-	char *sub = (char *) malloc((y-x + 1));
+	char *sub = malloc((y-x + 1));
 
 	for (i = x; i < y; i++) {
 		sub[k++] = word[i];
